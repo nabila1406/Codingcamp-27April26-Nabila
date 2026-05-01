@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense &amp; Budget Visualizer</title>
+    <script>
+      (function () {
+        var theme = localStorage.getItem('theme');
+        document.documentElement.setAttribute('data-theme', theme || 'light');
+      })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+
+      <!-- Header: Balance Display + Theme Toggle -->
+      <header id="app-header">
+        <div id="balance-display">
+          <span id="balance-label">Total Balance:</span>
+          <span id="balance-amount">Rp 0</span>
+        </div>
+        <button id="theme-toggle" type="button" aria-label="Toggle dark/light mode">
+          Toggle Theme
+        </button>
+      </header>
+
+      <!-- Month Selector -->
+      <section id="month-filter">
+        <label for="month-selector">Filter by month:</label>
+        <select id="month-selector">
+          <option value="">All</option>
+        </select>
+      </section>
+
+      <!-- Transaction Input Form -->
+      <section id="transaction-input">
+        <h2>Add Expense</h2>
+        <form id="transaction-form" novalidate>
+          <div class="form-group">
+            <label for="item-name">Item name</label>
+            <input type="text" id="item-name" placeholder="e.g. Coffee" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="item-amount">Amount (Rp)</label>
+            <input type="text" id="item-amount" inputmode="numeric" placeholder="0" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="item-category">Category</label>
+            <select id="item-category">
+              <option value="">Select category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+          </div>
+          <button type="submit">Add</button>
+          <span id="form-error" aria-live="polite"></span>
+        </form>
+      </section>
+
+      <!-- Custom Category Control -->
+      <section id="add-category-section">
+        <h2>Add Category</h2>
+        <div class="form-group">
+          <label for="new-category-name">Category name</label>
+          <input type="text" id="new-category-name" placeholder="e.g. Health" autocomplete="off" />
+        </div>
+        <button id="add-category-btn" type="button">Add Category</button>
+        <span id="category-error" aria-live="polite"></span>
+      </section>
+
+      <!-- Transaction List -->
+      <section id="transaction-history">
+        <h2>Transactions</h2>
+        <ul id="transaction-list">
+          <!-- Items rendered dynamically by renderList() -->
+        </ul>
+      </section>
+
+      <!-- Pie Chart -->
+      <section id="chart-section">
+        <h2>Spending by Category</h2>
+        <div id="chart-container">
+          <canvas id="spending-chart"></canvas>
+          <p id="chart-placeholder">No transactions yet. Add an expense to see your spending chart.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <script src="js/app.js" defer></script>
+  </body>
+</html>

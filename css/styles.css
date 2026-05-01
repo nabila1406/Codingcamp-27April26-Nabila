@@ -1,0 +1,501 @@
+/* =============================================================================
+   Expense & Budget Visualizer — styles.css
+   Single stylesheet; all layout and theming lives here.
+   ============================================================================= */
+
+/* =============================================================================
+   1. DESIGN TOKENS — light theme (default)
+   ============================================================================= */
+
+:root {
+  /* Colours — pink soft green palette */
+  --color-bg:           #f5faf6;
+  --color-surface:      #ffffff;
+  --color-surface-alt:  #f0f7f1;
+  --color-border:       #c8e6c9;
+  --color-text:         #1b3a2d;
+  --color-text-muted:   #6a9a78;
+  --color-primary:      #e8789a;
+  --color-primary-hover:#d45f84;
+  --color-danger:       #c0392b;
+  --color-danger-hover: #a93226;
+  --color-error:        #c0392b;
+  --color-balance-bg:   #fce4ec;
+  --color-balance-text: #ad1457;
+
+  /* Spacing */
+  --space-xs:  0.25rem;   /*  4px */
+  --space-sm:  0.5rem;    /*  8px */
+  --space-md:  1rem;      /* 16px */
+  --space-lg:  1.5rem;    /* 24px */
+  --space-xl:  2rem;      /* 32px */
+
+  /* Typography */
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg:   1.125rem;  /* 18px */
+  --font-size-xl:   1.375rem;  /* 22px */
+  --font-size-2xl:  1.75rem;   /* 28px */
+  --line-height:    1.5;
+
+  /* Borders & Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --border-width: 1px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+}
+
+/* =============================================================================
+   2. DARK THEME OVERRIDES
+   Only colour custom properties are redefined — no layout rules duplicated.
+   ============================================================================= */
+
+[data-theme="dark"] {
+  --color-bg:           #0d1f14;
+  --color-surface:      #162b1e;
+  --color-surface-alt:  #1e3828;
+  --color-border:       #2d5a3d;
+  --color-text:         #f0faf2;
+  --color-text-muted:   #7ec89a;
+  --color-primary:      #f48fb1;
+  --color-primary-hover:#f06292;
+  --color-danger:       #ef9a9a;
+  --color-danger-hover: #e57373;
+  --color-error:        #ef9a9a;
+  --color-balance-bg:   #1a1025;
+  --color-balance-text: #f48fb1;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.50);
+}
+
+/* =============================================================================
+   3. RESET & BASE
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: var(--space-lg) var(--space-md);
+  transition: background-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+/* =============================================================================
+   4. PAGE LAYOUT — centred column, max-width ~480 px
+   ============================================================================= */
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* =============================================================================
+   5. HEADER — balance display + theme toggle on one row
+   ============================================================================= */
+
+#app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  background-color: var(--color-balance-bg);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+#balance-display {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+#balance-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#balance-amount {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-balance-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* =============================================================================
+   6. BUTTONS — shared base + variants
+   ============================================================================= */
+
+button {
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  transition: background-color var(--transition-fast),
+              color var(--transition-fast),
+              opacity var(--transition-fast);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Primary action button (form submit, add category) */
+button[type="submit"],
+#add-category-btn {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+}
+
+button[type="submit"]:hover,
+#add-category-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Theme toggle — compact, icon-like */
+#theme-toggle {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#theme-toggle:hover {
+  background-color: var(--color-surface-alt);
+}
+
+/* =============================================================================
+   7. SECTION CARDS — shared surface style for each section
+   ============================================================================= */
+
+#month-filter,
+#transaction-input,
+#add-category-section,
+#transaction-history,
+#chart-section {
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Section headings */
+#transaction-input h2,
+#add-category-section h2,
+#transaction-history h2,
+#chart-section h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+/* =============================================================================
+   8. MONTH FILTER
+   ============================================================================= */
+
+#month-filter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+}
+
+#month-filter label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* =============================================================================
+   9. FORM — stacked inputs with labels
+   ============================================================================= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  font-family: inherit;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  width: 100%;
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+[data-theme="dark"] input[type="text"]:focus,
+[data-theme="dark"] input[type="number"]:focus,
+[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.20);
+}
+
+input::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Inline error messages */
+#form-error,
+#category-error {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  min-height: 1.25em;
+  margin-top: var(--space-xs);
+}
+
+/* =============================================================================
+   10. TRANSACTION LIST — scrollable, styled items
+   ============================================================================= */
+
+#transaction-list {
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  /* Subtle inset scroll area */
+  padding-right: var(--space-xs);
+}
+
+/* Custom scrollbar (Webkit) */
+#transaction-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#transaction-list::-webkit-scrollbar-track {
+  background: var(--color-surface-alt);
+  border-radius: 3px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+#transaction-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Individual transaction item */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--color-surface-alt);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.transaction-name {
+  flex: 1 1 auto;
+  font-weight: 500;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-amount {
+  flex-shrink: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.transaction-category {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: 999px;
+  padding: 1px var(--space-sm);
+  white-space: nowrap;
+}
+
+/* Delete button — aligned to the right, danger colour */
+.delete-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  background-color: transparent;
+  color: var(--color-danger);
+  border: var(--border-width) solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.delete-btn:hover {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+/* Empty-list message (if JS renders one) */
+#transaction-list:empty::after {
+  content: 'No transactions yet.';
+  display: block;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  padding: var(--space-md) 0;
+}
+
+/* =============================================================================
+   11. CHART CONTAINER & PLACEHOLDER
+   ============================================================================= */
+
+#chart-container {
+  position: relative;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#spending-chart {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#chart-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  padding: var(--space-md);
+}
+
+/* =============================================================================
+   12. RESPONSIVE — small screens (≤ 480 px)
+   ============================================================================= */
+
+@media (max-width: 480px) {
+  body {
+    padding: var(--space-md) var(--space-sm);
+    font-size: var(--font-size-sm);
+  }
+
+  #app {
+    gap: var(--space-md);
+  }
+
+  #app-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  #balance-amount {
+    font-size: var(--font-size-xl);
+  }
+
+  #month-filter,
+  #transaction-input,
+  #add-category-section,
+  #transaction-history,
+  #chart-section {
+    padding: var(--space-md);
+  }
+
+  #transaction-input h2,
+  #add-category-section h2,
+  #transaction-history h2,
+  #chart-section h2 {
+    font-size: var(--font-size-base);
+  }
+
+  #transaction-list {
+    max-height: 220px;
+  }
+
+  #chart-container {
+    height: 220px;
+  }
+
+  .transaction-item {
+    flex-wrap: wrap;
+  }
+
+  .transaction-category {
+    order: 3;
+  }
+
+  .delete-btn {
+    order: 4;
+    margin-left: auto;
+  }
+}
